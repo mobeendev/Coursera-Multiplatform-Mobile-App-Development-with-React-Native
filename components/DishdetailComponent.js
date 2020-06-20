@@ -9,7 +9,7 @@ import {
   Button,
 } from "react-native";
 import { Card, Icon, Rating, Input } from "react-native-elements";
-import { postFavorite } from "../redux/ActionCreators";
+import { postFavorite, postComment } from "../redux/ActionCreators";
 
 import { connect } from "react-redux";
 import { baseUrl } from "../shared/baseUrl";
@@ -24,6 +24,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => ({
   postFavorite: (dishId) => dispatch(postFavorite(dishId)),
+  postComment: (dishId, rating, author, comment) =>
+    dispatch(postComment(dishId, rating, author, comment)),
 });
 
 function RenderComments(props) {
@@ -109,7 +111,24 @@ class DishDetail extends Component {
   };
 
   handleComment(dishId) {
-    console.log(JSON.stringify(this.state));
+    console.log(JSON.stringify(this.state) + dishId);
+
+    // {
+    //   "id": 0,
+    //   "dishId": 0,
+    //   "rating": 5,
+    //   "comment": "Imagine all the eatables, living in conFusion!",
+    //   "author": "John Lemon",
+    //   "date": "2012-10-16T17:57:28.556094Z"
+    // },
+
+    this.props.postComment(
+      dishId,
+      this.state.rating,
+      this.state.author,
+      this.state.comment
+    );
+
     this.toggleModal();
   }
 
@@ -136,12 +155,6 @@ class DishDetail extends Component {
           animationType={"slide"}
           transparent={false}
           visible={this.state.showModal}
-          onDismiss={() => {
-            this.toggleModal();
-          }}
-          onRequestClose={() => {
-            this.toggleModal();
-          }}
         >
           <View style={styles.modal}>
             <View>

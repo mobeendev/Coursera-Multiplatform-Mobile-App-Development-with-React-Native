@@ -9,6 +9,6 @@ npm-debug.*
 *.orig.*
 web-build/
 web-report/
-
+shared/baseUrl.js
 # macOS
 .DS_Store
