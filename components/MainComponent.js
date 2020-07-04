@@ -6,6 +6,7 @@ import Home from "./HomeComponent";
 import About from "./AboutComponent";
 import Reservation from "./ReservationComponent";
 import Favorites from "./FavoriteComponent";
+import Login from "./LoginComponent";
 
 import { DISHES } from "../shared/dishes";
 import {
@@ -221,6 +222,31 @@ const ReservationNavigator = createStackNavigator(
     }),
   }
 );
+
+const LoginNavigator = createStackNavigator(
+  {
+    Login: { screen: Login },
+  },
+  {
+    navigationOptions: ({ navigation }) => ({
+      headerStyle: {
+        backgroundColor: "#512DA8",
+      },
+      headerTitleStyle: {
+        color: "#fff",
+      },
+      headerTintColor: "#fff",
+      headerLeft: (
+        <Icon
+          name="menu"
+          size={24}
+          iconStyle={{ color: "white" }}
+          onPress={() => navigation.toggleDrawer()}
+        />
+      ),
+    }),
+  }
+);
 const MainNavigator = createDrawerNavigator(
   {
     Home: {
@@ -303,8 +329,24 @@ const MainNavigator = createDrawerNavigator(
         ),
       },
     },
+    Login: {
+      screen: LoginNavigator,
+      navigationOptions: {
+        title: "Login",
+        drawerLabel: "Login",
+        drawerIcon: ({ tintColor, focused }) => (
+          <Icon
+            name="sign-in"
+            type="font-awesome"
+            size={24}
+            iconStyle={{ color: tintColor }}
+          />
+        ),
+      },
+    },
   },
   {
+    initialRouteName: "Home",
     drawerBackgroundColor: "#D1C4E9",
     contentComponent: CustomDrawerContentComponent,
   }
