@@ -9,6 +9,7 @@ import {
   Button,
   Alert,
   PanResponder,
+  Share,
 } from "react-native";
 import { Card, Icon, AirbnbRating, Input } from "react-native-elements";
 import { connect } from "react-redux";
@@ -153,6 +154,19 @@ class DishDetail extends Component {
         return true;
       },
     });
+
+    const shareDish = (title, message, url) => {
+      Share.share(
+        {
+          title: title,
+          message: title + ": " + message + " " + url,
+          url: url,
+        },
+        {
+          dialogTitle: "Share " + title,
+        }
+      );
+    };
     return (
       <ScrollView>
         <Animatable.View
@@ -191,6 +205,17 @@ class DishDetail extends Component {
                   this.setState({ dishId: dishId });
                 }}
               ></Icon>
+              <Icon
+                raised
+                reverse
+                name="share"
+                type="font-awesome"
+                color="#51D2A8"
+                style={styles.cardItem}
+                onPress={() =>
+                  shareDish(dish.name, dish.description, baseUrl + dish.image)
+                }
+              />
             </View>
           </Card>
 
