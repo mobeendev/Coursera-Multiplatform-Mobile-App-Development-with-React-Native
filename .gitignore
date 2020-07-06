@@ -12,3 +12,4 @@ web-report/
 shared/baseUrl.js
 # macOS
 .DS_Store
+shared/baseUrl.js
