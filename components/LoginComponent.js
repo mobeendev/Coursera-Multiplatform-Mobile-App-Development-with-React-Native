@@ -7,6 +7,7 @@ import { Input, CheckBox, Button, Icon } from "react-native-elements";
 import { createBottomTabNavigator } from "react-navigation";
 import { baseUrl } from "../shared/baseUrl";
 import * as ImagePicker from "expo-image-picker";
+import * as ImageManipulator from "expo-image-manipulator";
 
 class LoginTab extends Component {
   constructor(props) {
@@ -153,11 +154,24 @@ class RegisterTab extends Component {
       });
       if (!capturedImage.cancelled) {
         console.log(capturedImage);
-        this.setState({ imageUrl: capturedImage.uri });
+        this.processImage(capturedImage.uri);
       }
     }
   };
 
+  processImage = async (imageUri) => {
+    let processedImage = await ImageManipulator.manipulateAsync(
+      imageUri,
+      [
+        { rotate: 90 },
+        { flip: ImageManipulator.FlipType.Vertical },
+        { resize: { width: 400 } },
+      ],
+      { format: "png" }
+    );
+    console.log(processedImage);
+    this.setState({ imageUrl: processedImage.uri });
+  };
   static navigationOptions = {
     title: "Register",
     tabBarIcon: ({ tintColor, focused }) => (
